@@ -1,10 +1,12 @@
 import { ApplyOptions } from '@sapphire/decorators';
 import { Command } from '@sapphire/framework';
+import { fetchApi } from '../lib/api.js';
 
 @ApplyOptions<Command.Options>({
-	description: 'ping pong'
+	name: 'save',
+	description: 'save'
 })
-export class UserCommand extends Command {
+export class InfoCommand extends Command {
 	public override registerApplicationCommands(registry: Command.Registry) {
 		registry.registerChatInputCommand({
 			name: this.name,
@@ -13,14 +15,14 @@ export class UserCommand extends Command {
 	}
 
 	public override async chatInputRun(interaction: Command.ChatInputCommandInteraction) {
-		const pingMessage = await interaction.reply({ content: 'Ping?', fetchReply: true });
+		await interaction.deferReply();
 
-		const content = `Pong! Bot Latency ${Math.round(this.container.client.ws.ping)}ms. API Latency ${
-			pingMessage.createdTimestamp - interaction.createdTimestamp
-		}ms.`;
+		await fetchApi('/announce', { message: 'Saving...' });
+		await fetchApi('/save', { method: 'POST' });
+		await fetchApi('/announce', { message: 'Saved!' });
 
 		return interaction.editReply({
-			content
+			content: 'Successfully saved!'
 		});
 	}
 }

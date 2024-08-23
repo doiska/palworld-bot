@@ -17,5 +17,7 @@ declare module '@skyra/env-utilities' {
 	// Add your environment variables here
 	interface Env {
 		DISCORD_TOKEN: string;
+		USERNAME: string;
+		PASSWORD: string;
 	}
 }
