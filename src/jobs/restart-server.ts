@@ -11,8 +11,8 @@ export async function restartServer() {
 }
 
 CronJob.from({
-	cronTime: '0 */3 * * *',
+	cronTime: '0 */1 * * *',
 	onTick: restartServer,
 	start: true,
-	utcOffset: -3
+	runOnInit: true
 });
