@@ -9,7 +9,7 @@ export const client = new SapphireClient({
 	intents: [GatewayIntentBits.Guilds]
 });
 
-await client.login().then(() => {
+await client.login().then(async () => {
 	await import('./jobs/save-server.js');
 	await import('./jobs/player-connect.js');
 	await import('./jobs/restart-server.js');
