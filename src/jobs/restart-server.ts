@@ -1,7 +1,9 @@
-import { fetchApi } from '../lib/api.js';
+import { broadcastGlobal, fetchApi } from '../lib/api.js';
 import { CronJob } from 'cron';
 
 export async function restartServer() {
+	await broadcastGlobal('Scheduling the server to be restarted in 60 seconds.');
+
 	await fetchApi('/shutdown', {
 		waittime: 60,
 		message: 'Server will be restarted in 60 seconds.'
@@ -11,5 +13,6 @@ export async function restartServer() {
 CronJob.from({
 	cronTime: '0 */3 * * *',
 	onTick: restartServer,
-	start: true
+	start: true,
+	utcOffset: -3
 });
