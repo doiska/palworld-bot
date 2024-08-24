@@ -1,9 +1,5 @@
 import './lib/setup.js';
 
-import './jobs/save-server.js';
-import './jobs/player-connect.js';
-import './jobs/restart-server.js';
-
 import { SapphireClient, ApplicationCommandRegistries } from '@sapphire/framework';
 import { GatewayIntentBits } from 'discord.js';
 
@@ -13,4 +9,8 @@ export const client = new SapphireClient({
 	intents: [GatewayIntentBits.Guilds]
 });
 
-await client.login();
+await client.login().then(() => {
+	await import('./jobs/save-server.js');
+	await import('./jobs/player-connect.js');
+	await import('./jobs/restart-server.js');
+});
